@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by VI (GNIVC FNS RF) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fns="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/types/312-67" targetNamespace="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/types/312-67" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="Request">
+		<xs:attribute name="requestTS" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата и время запроса</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:dateTime">
+					<xs:minInclusive value="2020-01-01T00:00:00"/>
+					<xs:maxInclusive value="2099-12-31T23:59:59"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="messageId" type="fns:GUID" use="required">
+			<xs:annotation>
+				<xs:documentation>UID запроса АИС ОПН</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="Response">
+		<xs:attribute name="resultCode" use="required">
+			<xs:annotation>
+				<xs:documentation>Результат исполнения запроса</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="fns:resultCodeType">
+					<xs:enumeration value="SUCCESS"/>
+					<xs:enumeration value="DUPLICATE_REQUEST"/>
+					<xs:enumeration value="INVALID_DATE_PARAM"/>
+					<xs:enumeration value="INVALID_REPORT_TYPE"/>
+					<xs:enumeration value="REPORT_NOT_FOUND"/>
+					<xs:enumeration value="REPORT_ALREADY_SENT"/>
+					<xs:enumeration value="REQUEST_ERROR"/>
+					<xs:enumeration value="BAD_REQUEST"/>
+					<xs:enumeration value="INVALID_SYSTEM_NAME"/>
+					<xs:enumeration value="INVALID_TICKET_ID"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="resultText" type="fns:textType" use="optional">
+			<xs:annotation>
+				<xs:documentation>Текст сообщения</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="messageId" type="fns:GUID" use="required">
+			<xs:annotation>
+				<xs:documentation>UID запроса АИС ОПН</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="responseTS" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата и время ответа на запрос</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="xs:dateTime">
+					<xs:minInclusive value="2020-01-01T00:00:00"/>
+					<xs:maxInclusive value="2099-12-31T23:59:59"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:simpleType name="GUID">
+		<xs:annotation>
+			<xs:documentation>GUID Текст длиной ровно 36 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="36"/>
+			<xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="sizeType">
+		<xs:annotation>
+			<xs:documentation>Размер в байтах. Число целое, содержащее 20 разрядов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="resultCodeType">
+		<xs:annotation>
+			<xs:documentation>Результат исполнения запроса</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="systemNameType">
+		<xs:annotation>
+			<xs:documentation>Имя системы. Произвольный текст длиной от 1 до 30 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fileNameType">
+		<xs:annotation>
+			<xs:documentation>Имя файла. Произвольный текст длиной от 1 до 255 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="textType">
+		<xs:annotation>
+			<xs:documentation>Текстовое сообщение. Произвольный текст длиной от 1 до 1000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="reportTypeType">
+		<xs:annotation>
+			<xs:documentation>Вид (тип) сведений. Произвольный текст длиной от 1 до 100 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="typeOutOfScheduleType">
+		<xs:annotation>
+			<xs:documentation>Тип сведений вне расписания. Произвольный текст длиной от 1 до 100 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statusType">
+		<xs:annotation>
+			<xs:documentation>Состояние запроса. Произвольный текст длиной от 1 до 20 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statusReasonType">
+		<xs:annotation>
+			<xs:documentation>Произвольный текст длиной от 1 до 1000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000"/>
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="partNumberType">
+		<xs:annotation>
+			<xs:documentation>Номер части. Число целое от 0 и более</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="filePartCountType">
+		<xs:annotation>
+			<xs:documentation>Количество частей. Число целое от 1 и более</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="fileReferenceType">
+		<xs:annotation>
+			<xs:documentation>Ссылка на файл. Произвольный текст длиной от 1 до 1000 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="1000"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nameType">
+		<xs:annotation>
+			<xs:documentation>Имя параметра. Произвольный текст длиной от 1 до 100 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="valueType">
+		<xs:annotation>
+			<xs:documentation>Значение параметра. Произвольный текст длиной от 1 до 255 символов</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

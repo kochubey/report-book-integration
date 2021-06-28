@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>reports-book-int</name>
+
+    <groupId>kom3.logbook.int</groupId>
+    <artifactId>multi-modules</artifactId>
+    <version>1.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <camel.version>3.0.0-M4</camel.version>
+        <boot.version>2.1.6.RELEASE</boot.version>
+    </properties>
+
+    <!--    <groupId>com.mkyong.multi</groupId>-->
+    <!--    <artifactId>java-multi-modules</artifactId>-->
+
+
+    <!-- sub modules -->
+    <modules>
+        <module>commons</module>
+        <module>database</module>
+
+        <module>datumnode</module>
+
+        <module>adapters</module>
+<!--        <module>adapters/sbis</module>-->
+    </modules>
+
+    <dependencies>
+
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jackson-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-swagger-java-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+    </dependencies>
+
+    <!--    <build>-->
+    <!--        <defaultGoal>spring-boot:run</defaultGoal>-->
+
+    <!--        <resources>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/resources/profiles/${environment}</directory>-->
+    <!--                <includes>-->
+    <!--                    <include>*.properties</include>-->
+    <!--                </includes>-->
+    <!--                <filtering>true</filtering>-->
+    <!--            </resource>-->
+    <!--            <resource>-->
+    <!--                <directory>src/main/resources</directory>-->
+    <!--                <excludes>-->
+    <!--                    <exclude>profiles/**</exclude>-->
+    <!--                </excludes>-->
+    <!--            </resource>-->
+    <!--        </resources>-->
+
+    <!--        <filters>-->
+    <!--            <filter>src/main/resources/profiles/${environment}.cfg</filter>-->
+    <!--        </filters>-->
+
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.springframework.boot</groupId>-->
+    <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <mainClass>logbook.Main</mainClass>-->
+    <!--                </configuration>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <goals>-->
+    <!--                            <goal>repackage</goal>-->
+    <!--                        </goals>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <source>8</source>-->
+    <!--                    <target>8</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-resources-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <encoding>UTF-8</encoding>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.codehaus.mojo</groupId>-->
+    <!--                <artifactId>build-helper-maven-plugin</artifactId>-->
+    <!--                <version>3.0.0</version>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <phase>generate-sources</phase>-->
+    <!--                        <goals>-->
+    <!--                            <goal>add-source</goal>-->
+    <!--                        </goals>-->
+    <!--                        <configuration>-->
+    <!--                            <sources>-->
+    <!--                                <source>dbl/src/main/java</source>-->
+    <!--                            </sources>-->
+    <!--                        </configuration>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
+
+    <!--    <profiles>-->
+    <!--        <profile>-->
+    <!--            <id>loc</id>-->
+    <!--            <activation>-->
+    <!--                <activeByDefault>false</activeByDefault>-->
+    <!--            </activation>-->
+    <!--            <properties>-->
+    <!--                <environment>loc</environment>-->
+    <!--            </properties>-->
+    <!--        </profile>-->
+    <!--        <profile>-->
+    <!--            <id>dev</id>-->
+    <!--            <activation>-->
+    <!--                <activeByDefault>true</activeByDefault>-->
+    <!--            </activation>-->
+    <!--            <properties>-->
+    <!--                <environment>dev</environment>-->
+    <!--            </properties>-->
+    <!--        </profile>-->
+    <!--        <profile>-->
+    <!--            <id>prod</id>-->
+    <!--            <properties>-->
+    <!--                <environment>prod</environment>-->
+    <!--            </properties>-->
+    <!--        </profile>-->
+    <!--        <profile>-->
+    <!--            <id>test</id>-->
+    <!--            <properties>-->
+    <!--                <environment>test</environment>-->
+    <!--            </properties>-->
+    <!--        </profile>-->
+    <!--    </profiles>-->
+
+</project>

@@ -1,0 +1,3 @@
+<ns:reportReceivedResponse resultCode="REPORT_ALREADY_SENT" resultText="string"
+                           messageId="stringstringstringstringstringstring" responseTS="2020-01-01T01:00:00.000"
+                           xmlns:ns="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/root/312-67"/>

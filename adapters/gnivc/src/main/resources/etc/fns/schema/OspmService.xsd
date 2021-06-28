@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by VI (GNIVC FNS RF) -->
+<!-- Схема сервиса обмена между ФНС с Правительством Москвы в рамках взаимодействия АИС «Налог-3» и АИС ОПН -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/root/312-67" xmlns:fnst="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/types/312-67" targetNamespace="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/root/312-67" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="urn://x-artefacts-gnivc-ru/ExampleSystem/ExampleSubsystem/OspmService/types/312-67" schemaLocation="OspmServiceTypes.xsd"/>
+	<xs:element name="getScheduledReportRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос получения отчета по расписанию</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:sequence>
+						<xs:element name="reportType" type="fnst:reportTypeType">
+							<xs:annotation>
+								<xs:documentation>Вид запрашиваемых сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="systemName" type="fnst:systemNameType" use="required">
+						<xs:annotation>
+							<xs:documentation>Имя системы</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="reportDateParameter" use="required">
+						<xs:annotation>
+							<xs:documentation>Параметр отчета в формате даты</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:date">
+								<xs:minInclusive value="2000-01-01"/>
+								<xs:maxInclusive value="2099-12-31"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getScheduledReportResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос получения отчета по расписанию</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getCorrectedReportRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос получения отчета вне расписания</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:sequence>
+						<xs:element name="reportType" type="fnst:reportTypeType">
+							<xs:annotation>
+								<xs:documentation>Вид запрашиваемых сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="message" type="fnst:textType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Текстовое сообщение от АИС ОПН</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Массив параметров</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="name" type="fnst:nameType" use="required">
+									<xs:annotation>
+										<xs:documentation>Имя параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="fnst:valueType" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="systemName" type="fnst:systemNameType" use="required">
+						<xs:annotation>
+							<xs:documentation>Имя системы</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="reportDateParameter" use="required">
+						<xs:annotation>
+							<xs:documentation>Параметр отчета в формате даты</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:date">
+								<xs:minInclusive value="2000-01-01"/>
+								<xs:maxInclusive value="2099-12-31"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="typeOutOfSchedule" use="required">
+						<xs:annotation>
+							<xs:documentation>Тип сведений вне расписания</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="fnst:typeOutOfScheduleType">
+								<xs:enumeration value="RECREATE"/>
+								<xs:enumeration value="EARLY"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getCorrectedReportResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос получения отчета вне расписания</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getTicketStatusRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос получения статуса запроса</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+						<xs:annotation>
+							<xs:documentation>UID запроса в Системе</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getTicketStatusResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос получения статуса запроса</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="statusReason" type="fnst:statusReasonType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Описание причины для статуса</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="status" use="required">
+									<xs:annotation>
+										<xs:documentation>Текущее состояние запроса</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="fnst:statusType">
+											<xs:enumeration value="REGISTERED"/>
+											<xs:enumeration value="INPROGRESS"/>
+											<xs:enumeration value="WAITING"/>
+											<xs:enumeration value="INACCEPT"/>
+											<xs:enumeration value="READY"/>
+											<xs:enumeration value="REJECTED"/>
+											<xs:enumeration value="SENT"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getReportContentRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос получения файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+						<xs:annotation>
+							<xs:documentation>UID запроса в Системе</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getReportContentResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос получения файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="fileName" type="fnst:fileNameType">
+										<xs:annotation>
+											<xs:documentation>Имя файла</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="fileReference" type="fnst:fileReferenceType" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Ссылка на файл отчета, выложенный на SecureCloud-сервер</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+									<xs:element name="filePartContent" type="xs:base64Binary" minOccurs="0">
+										<xs:annotation>
+											<xs:documentation>Содержимое единственной или первой части файла отчета</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="fileSize" type="fnst:sizeType" use="required">
+									<xs:annotation>
+										<xs:documentation>Размер файла в байтах</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="partSize" type="fnst:sizeType" use="required">
+									<xs:annotation>
+										<xs:documentation>Максимальный размер одной части в байтах</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="filePartSize" type="fnst:sizeType" use="required">
+									<xs:annotation>
+										<xs:documentation>Размер в байтах единственной или первой части передаваемого файла</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="filePartCount" type="fnst:filePartCountType" use="required">
+									<xs:annotation>
+										<xs:documentation>Количество частей файла</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getReportContentPartRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос получения остальных частей файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+						<xs:annotation>
+							<xs:documentation>UID запроса в Системе</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="partNumber" type="fnst:partNumberType" use="required">
+						<xs:annotation>
+							<xs:documentation>Номер запрашиваемой части файла</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="getReportContentPartResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос получения остальных частей файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="filePartContent" type="xs:base64Binary">
+										<xs:annotation>
+											<xs:documentation>Содержимое запрошенной части файла отчета</xs:documentation>
+										</xs:annotation>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="filePartSize" type="fnst:sizeType" use="required">
+									<xs:annotation>
+										<xs:documentation>Размер в байтах части передаваемого файла</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="filePartNumber" type="fnst:partNumberType" use="required">
+									<xs:annotation>
+										<xs:documentation>Номер передаваемой части файла</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="filePartCount" type="fnst:filePartCountType" use="required">
+									<xs:annotation>
+										<xs:documentation>Количество частей файла</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="putReportRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос для передачи в Систему (сохранения) файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:sequence>
+						<xs:element name="reportType" type="fnst:reportTypeType">
+							<xs:annotation>
+								<xs:documentation>Тип передаваемых сведений</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="fileName" type="fnst:fileNameType">
+							<xs:annotation>
+								<xs:documentation>Имя файла</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="fileContent" type="xs:base64Binary">
+							<xs:annotation>
+								<xs:documentation>Содержимое файла отчета</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="systemName" type="fnst:systemNameType" use="required">
+						<xs:annotation>
+							<xs:documentation>Имя системы</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="reportDateParameter" use="optional">
+						<xs:annotation>
+							<xs:documentation>Параметр отчета в формате даты</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="xs:date">
+								<xs:minInclusive value="2000-01-01"/>
+								<xs:maxInclusive value="2099-12-31"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="fileSize" type="fnst:sizeType" use="required">
+						<xs:annotation>
+							<xs:documentation>Размер файла в байтах</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="putReportResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос для передачи в Систему (сохранения) файла отчета</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response">
+					<xs:sequence>
+						<xs:element name="result" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Сведения о результате исполнения запроса</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+									<xs:annotation>
+										<xs:documentation>UID запроса в Системе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="reportReceivedRequest">
+		<xs:annotation>
+			<xs:documentation>Запрос подтверждения факта получения сведений в АИС ОПН</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Request">
+					<xs:sequence>
+						<xs:element name="resultText" type="fnst:textType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Описание ошибки получения файла</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="ticketId" type="fnst:GUID" use="required">
+						<xs:annotation>
+							<xs:documentation>UID запроса в Системе</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="resultCode" use="required">
+						<xs:annotation>
+							<xs:documentation>Результат загрузки файла</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="fnst:resultCodeType">
+								<xs:enumeration value="SUCCESS"/>
+								<xs:enumeration value="FILE_SIZE_WRONG"/>
+								<xs:enumeration value="OTHER_ERROR"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="reportReceivedResponse">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос подтверждения факта получения сведений в АИС ОПН</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="fnst:Response"/>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

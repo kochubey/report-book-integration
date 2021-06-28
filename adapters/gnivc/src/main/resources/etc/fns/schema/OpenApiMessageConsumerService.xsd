@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Схема сервиса обмена между ФНС с Правительством Москвы в рамках взаимодействия АИС «Налог-3» и АИС ОПН -->
+<xs:schema elementFormDefault="qualified" targetNamespace="urn://x-artefacts-gnivc-ru/inplat/servin/OpenApiMessageConsumerService/types/1.0" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn://x-artefacts-gnivc-ru/inplat/servin/OpenApiMessageConsumerService/types/1.0">
+	<xs:element name="GetMessageRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="1" name="Message">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:any namespace="##other" processContents="skip"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="GetMessageResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="1" minOccurs="0" name="Message">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:any namespace="##other" processContents="skip"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AuthenticationFault" type="tns:AuthenticationFault"/>
+	<xs:complexType name="AuthenticationFault">
+		<xs:annotation>
+			<xs:documentation>Ошибка проверки подлинности</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+</xs:schema>

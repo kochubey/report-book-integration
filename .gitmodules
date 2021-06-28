@@ -1,0 +1,4 @@
+[submodule "dbl"]
+	path = dbl
+	url = git@github.com:E5-Education/reports-book-dbl
+	branch = release

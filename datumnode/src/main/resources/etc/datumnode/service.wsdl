@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions targetNamespace="urn://x-artefacts-kom3-tech/datumnode/services/datatype/1.0"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"
+                  xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+                  xmlns:http="http://schemas.microsoft.com/ws/06/2004/policy/http"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://schemas.xmlsoap.org/ws/2004/09/policy http://schemas.xmlsoap.org/ws/2004/09/policy/ws-policy.xsd"
+                  xmlns:tns="urn://x-artefacts-kom3-tech/datumnode/services/datatype/1.0">
+
+    <wsdl:types>
+        <xs:schema targetNamespace="urn://x-artefacts-kom3-tech/datumnode/services/datatype/1.0"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                   xmlns:tns="urn://x-artefacts-kom3-tech/datumnode/services/datatype/1.0"
+                   xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" elementFormDefault="qualified">
+            <xs:element name="exchange" type="tns:exchange"/>
+
+            <xs:element name="status" type="tns:status"/>
+
+            <xs:complexType name="exchange">
+                <xs:complexContent>
+                    <xs:extension base="tns:exchange-headers">
+                        <xs:sequence>
+                            <xs:element minOccurs="0" ref="tns:message"></xs:element>
+                            <xs:element minOccurs="0" ref="tns:attach"></xs:element>
+                            <!--                    <xs:element minOccurs="0" ref="tns:details"></xs:element>-->
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+
+            <xs:complexType name="status">
+                <xs:annotation>
+                    <xs:documentation>
+                        Тип сообщения соответствующий корневому элементу Status схемы данных
+                        urn://x-artefacts-kom3-tech/datumnode/services/datatype/1.0
+                        Предназначен для описания состояния операции обмена. Операция обмена характеризуется следующими
+                        заголовками при обращении к datatype сервису:
+                        - dataType
+                        - sessionId
+                        Система-абонент интеграционной платформы узнаёт по коду результата его обращения
+                        (запроса/ответа/публикации) статус отработки запроса
+                        и определяет, какие действия ему предпринимать дальше.
+                        Набор кодов результата приведен в приложении, и они описаны в соответствующем реестре кодов
+                        состояний.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:complexContent>
+                    <xs:extension base="tns:exchange-headers">
+                        <xs:sequence>
+                            <xs:element minOccurs="1" name="code" type="xs:integer"/>
+                            <xs:element minOccurs="0" name="result">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="64"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element minOccurs="0" name="description">
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:maxLength value="1024"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:element>
+                            <xs:element name="details" minOccurs="0" maxOccurs="1">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="tns:validator" name="validator" maxOccurs="unbounded" minOccurs="0"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:extension>
+                </xs:complexContent>
+            </xs:complexType>
+
+            <xs:simpleType name="uuid">
+                <xs:restriction base="xs:string">
+                    <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+                </xs:restriction>
+            </xs:simpleType>
+
+            <xs:simpleType name="message-type">
+                <xs:annotation>
+                    <xs:documentation>MIME-тип передаваемого сообщения</xs:documentation>
+                </xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="text"/>
+                    <xs:enumeration value="xml"/>
+                    <xs:enumeration value="json"/>
+                    <xs:enumeration value="yaml"/>
+                </xs:restriction>
+            </xs:simpleType>
+
+            <xs:complexType name="exchange-headers">
+                <xs:annotation>
+                    <xs:documentation>MIME-тип передаваемого сообщения</xs:documentation>
+                </xs:annotation>
+                <xs:attribute use="optional" name="dataType">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Зарегистрированное пространство имени 'вида сведений'
+                            URN-cсылка на схему из реестра Видов сведений в формате
+                            URN ::= urn://schema/DataSystem/DataCode/Version
+                            DataSystem - код системы владельца вида сведений из Реестра систем-абонентов
+                            DataCode - код вида сведений из Реестра видов сведений
+
+                            Пример вида сведений опубликованный "Информационная система PING" :
+                            urn://schema/ping/pretty_pong/snapshot-1.0.0
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="urn://schema/\w+/[\w|\\_]+/[\w|\.|\-]*"></xs:pattern>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute use="optional" name="initiator">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Код системы инициатора запроса/публикации
+                        </xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:maxLength value="32"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+                <xs:attribute use="optional" name="sessionId" type="tns:uuid">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Уникальный идентификатор процесса сессии (запроса/публикации) передачи сведений
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute use="optional" name="uuid" type="tns:uuid">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Уникальный идентификатор сессии информационного обмена, который генерируется на стороне ИП в рамках
+                            процесса передачи сведений.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute use="optional" name="isLast" type="xs:boolean" default="true">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Устанавливается в true, если сообщение сообщение в цепочке является последним.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+                <xs:attribute use="optional" name="seqNum" type="xs:integer" default="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Определяет порядковый номер сообщения в цепочке сообщений.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:attribute>
+            </xs:complexType>
+
+            <xs:complexType name="validator">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="inputVal" type="xs:string"/>
+                    <xs:element minOccurs="0" name="compareTo" type="xs:string"/>
+                    <xs:element minOccurs="0" name="critical" type="xs:boolean"/>
+                    <xs:element minOccurs="0" name="description" type="xs:string"/>
+                </xs:sequence>
+                <xs:attribute name="code" use="optional">
+                    <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:enumeration value="ROWCOUNT"/>
+                            <xs:enumeration value="FILESIZE"/>
+                            <xs:enumeration value="P3_KOEF_XX12"/>
+                            <xs:enumeration value="R3_KADNOMZD_NOTNULL"/>
+                            <xs:enumeration value="R3_NAL_STAVKA_MORE0_NOTNULL"/>
+                        </xs:restriction>
+                    </xs:simpleType>
+                </xs:attribute>
+            </xs:complexType>
+
+            <xs:element name="message">
+                <xs:annotation>
+                    <xs:documentation>Текст сообщения</xs:documentation>
+                </xs:annotation>
+                <xs:complexType mixed="true">
+                    <xs:sequence>
+                        <xs:any processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute use="required" name="type" type="tns:message-type"/>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="attach">
+                <xs:annotation>
+                    <xs:documentation>Содержимое файла сведений</xs:documentation>
+                </xs:annotation>
+                <xs:complexType mixed="true">
+                    <xs:simpleContent>
+                        <xs:extension base="xs:base64Binary">
+                            <xs:attribute use="optional" name="name">
+                                <xs:annotation>
+                                    <xs:documentation>Имя файла со сведениями</xs:documentation>
+                                </xs:annotation>
+                                <xs:simpleType>
+                                    <xs:restriction base="xs:string">
+                                        <xs:minLength value="1"/>
+                                        <xs:maxLength value="255"/>
+                                    </xs:restriction>
+                                </xs:simpleType>
+                            </xs:attribute>
+                            <xs:attribute use="optional" name="rows" type="xs:integer"></xs:attribute>
+                            <xs:attribute use="optional" name="size" type="xs:integer"></xs:attribute>
+                        </xs:extension>
+                    </xs:simpleContent>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsp:Policy wsu:Id="basicAuthenticationPolicy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <http:BasicAuthentication/>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+
+    <wsdl:message name="exchange">
+        <wsdl:part name="exchange" element="tns:exchange"/>
+    </wsdl:message>
+    <wsdl:message name="status">
+        <wsdl:part name="status" element="tns:status"/>
+    </wsdl:message>
+
+    <wsdl:portType name="portType">
+        <wsdl:operation name="put">
+            <wsdl:input message="tns:exchange"/>
+            <wsdl:output message="tns:status"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="base64" type="tns:portType">
+        <wsp:PolicyReference URI="#basicAuthenticationPolicy"/>
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="put">
+            <soap:operation soapAction="put"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="service">
+        <wsdl:port name="serviceEndpoint" binding="tns:base64">
+            <soap:address location="http://95.213.159.204:9099/reportbook/api/v1/datumnode.svc"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

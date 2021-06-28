@@ -1,0 +1,111 @@
+{
+  "namespace": "urn://schema/opn/vo_akttorgsb/1.0.0",
+  "name": "Сведения об объектах обложения торговым сбором",
+  "code": "VO_AKTTORGSB",
+  "systemId": 1,
+  "protocolId": 12,
+  "pollingPeriodicityId": 31,
+  "formatId": 52,
+  "version": "1.0.0",
+  "description": "Сведения об объектах обложения торговым сбором (подпункт 2 пункта 4.2.1.2 настоящего ТЗ)",
+  "authorId": 1,
+  "fileSizeRelation": "Больше",
+  "fileSize": 100,
+  "recordsNumberRelation": "Меньше",
+  "recordsNumber": 24,
+  "validations": [
+    {
+      "code": "q1",
+      "ruleId": 1,
+      "rule": "Заполненность нескольких полей",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "eaf60569563e2",
+      "enabled": true
+    },
+    {
+      "code": "q2",
+      "ruleId": 2,
+      "rule": "Формат данных",
+      "attributeId": 325,
+      "attribute": "ИдОтпр",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "a22fcc007907e",
+      "enabled": true
+    },
+    {
+      "code": "q3",
+      "ruleId": 3,
+      "rule": "Маска регулярного выражения",
+      "attributeId": 325,
+      "attribute": "ИдОтпр",
+      "mask": "/d/d",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "342ad1e1555c1",
+      "enabled": true
+    },
+    {
+      "code": "q4",
+      "ruleId": 4,
+      "rule": "Соответствие маске одного поля при соответствии маске другого",
+      "attributeId": 325,
+      "attribute": "ИдОтпр",
+      "mask": "/d/d",
+      "additionalAttributeId": 330,
+      "additionalAttribute": "ДолжОтв",
+      "additionalMask": "/d/d/d",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "ef142902e317",
+      "enabled": true
+    },
+    {
+      "code": "q5",
+      "ruleId": 5,
+      "rule": "Приведение к маске XX/12 и проверка",
+      "attributeId": 326,
+      "attribute": "ФИООтв",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "83a2a4d2ae986",
+      "enabled": true
+    },
+    {
+      "code": "q6",
+
+      "ruleId": 6,
+      "rule": "Соответствие справочнику",
+      "attributeId": 327,
+      "attribute": "Отчество",
+      "dictionaryId": 1,
+      "dictionary": "Реестр образующих элементов",
+      "dictionaryAttributeId": 1,
+      "dictionaryAttribute": "AOGUID",
+
+      "share": 100,
+      "criticality": 1,
+      "uuid": "95f9fb286701e",
+      "enabled": true
+    },
+    {
+      "code": "q7",
+      "ruleId": 7,
+      "rule": "Соответствие диапазону справочника",
+      "attributeId": 325,
+      "attribute": "ИдОтпр",
+      "dictionaryId": 1,
+      "dictionary": "Реестр образующих элементов",
+      "dictionaryAttributeId": 28,
+      "dictionaryAttribute": "CODE",
+      "dictionaryAttributeSelectionId": 28,
+      "dictionaryAttributeSelection": "CODE",
+      "dictionaryAttributeSelectionValue": "vvv123",
+      "share": 100,
+      "criticality": 1,
+      "uuid": "45e959951007f",
+      "enabled": true
+    }
+  ]
+}
